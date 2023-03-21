@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="style/reset.css">
+	<link rel="stylesheet" href="style/style.css">
+	<title>Homepage</title>
+</head>
+<body>
+	<header>
+		<h1>StormDiary</h1>
+		<p>Aplikace pro záznam pozorování a vedení evidence bouřkových jevů v České Republice</p>
+	</header>
+	<main>
+		<div class="instructions-container">
+			<h3>Instrukce:</h3>
+			<ul class="instructions">
+				<li>Za bouřku považujeme situaci, kdy jsou nad místem pozorování splněny dvě podmínky:
+					 <ul>
+						<li>Z oblačnosti vypadávají srážky.</li>
+						<li>Po záblesku z téhož mraku následuje zřetelně slyšitelný hrom.</li>
+					</ul>
+				</li>
+				<li>K vyplnění záznamu bouřky není střeba meteostanice, ani větších znalostí v oblasti meteorologie. Stačí uvést subjektivní pozorování. </li>
+				<li>Prosíme o pravdivě uvedené informace, které mohou pomoci ke správným výsledkům statistik.</li>
+				<li>Uvádějte pouze bouřky, které se vyskytly nad územím ČR, v případě pohraničí ale platí vše výše uvedené.</li>
+			</ul>
+		</div>
+			<div class="container">
+				
+				<div class="overview">
+						<!--add storms using script-->
+						<div id="counter">
+							
+						</div>
+				</div>
+				<div class="storm-side">
+					<h2>Zadat novou bouřku:</h2>
+					<form id="storm-form">
+						<div class="basic-inputs">
+							<p>Základní údaje:</p>
+							<label for="input-date">Datum</label>
+							<input type="date" id="input-date" name="inputDate"><br>
+							<label for="input-time">Čas</label>
+							<input type="time" id="input-time" name="inputTime"><br>
+							<label for="input-location">Místo</label>
+							<input type="text" id="input-location" name="inputLocation"placeholder="Město/Obec"><br>
+							<label for="input-duration">Doba trvání</label>
+							<input type="text" id="input-duration" name="inputDuration" placeholder="min"><br>
+							<label for="input-direction">Směr příchodu</label>
+							<select id="input-direction" class="select">
+								<option value="0"></option>
+								<option value="1">S</option>
+								<option value="2">SV</option>
+								<option value="3">V</option>
+								<option value="4">JV</option>
+								<option value="5">J</option>
+								<option value="6">JZ</option>
+								<option value="7">Z</option>
+								<option value="8">SZ</option>
+							</select><br>
+							<label for="input-storm-type">Typ bouřky</label>
+							<select name="" id="input-storm-type" class="select">
+								<option value="0"></option>
+								<option value="1">unicela</option>
+								<option value="2">multicela(neorganizovaná)</option>
+								<option value="3">squall-line</option>
+								<option value="4">MCS</option>
+							</select><br>
+							<label for="input-SC">Supercela</label>
+							<input type="checkbox" id="input-SC" name="inputSC" class="click-revealing"><br>
+							<!--if true-->
+							<label for="input-SC-type" class="hiddenElement">Typ supercely</label>
+							<select id="input-SC-type" class="select hiddenElement">
+								<option value="0"></option>
+								<option value="1">CS supercela</option>
+								<option value="2">LP supercela</option>
+								<option value="3">HP supercela</option>
+							</select><br>
+						</div>
+	
+						<div class="wind-inputs">
+							<p>Vítr</p>
+							<label for="input-wind-direction">Směr větru</label>
+							<select id="input-wind-direction" class="select">
+								<option value="0"></option>
+								<option value="1">S</option>
+								<option value="2">SV</option>
+								<option value="3">V</option>
+								<option value="4">JV</option>
+								<option value="5">J</option>
+								<option value="6">JZ</option>
+								<option value="7">Z</option>
+								<option value="8">SZ</option>
+							</select><br>
+							<label for="input-wind">Síla větru</label>
+							<select id="input-wind" class="select">
+								<option value="0"></option>
+								<option value="1">Bezvětří</option>
+								<option value="2">Slabý vítr</option>
+								<option value="3">Čerstvý vítr</option>
+								<option value="4">Silný vítr</option>
+								<option value="5">Velmi silný vítr a silnější</option>
+							</select><br>
+							<label for="input-burst">Downburst</label>
+							<input type="checkbox" id="input-burst" name="inputBurst"><br>
+							<label for="input-tornado">Tornádo</label>
+							<input type="checkbox" id="input-tornado" name="inputTornado" class="click-revealing"><br>
+							<!--if true-->
+							<label for="input-tornado-power">Síla tornáda</label>
+							<select id="input-tornado-power" class="select">
+								<option value="0"></option>
+								<option value="1">F1</option>
+								<option value="2">F2</option>
+								<option value="3">F3</option>
+								<option value="4">F4</option>
+								<option value="5">F5</option>
+							</select>
+						</div>
+						
+						<div class="preacipitation-inputs">
+							<p>Srážky</p>
+							<label for="input-preacipitation">Intenzita deště</label>
+							<select id="input-preacipitation" class="select">
+								<option value="0"></option>
+								<option value="1">Velmi slabý désť</option>
+								<option value="2">Mírný déšť</option>
+								<option value="3">Silný déšť</option>
+								<option value="4">Velmi silný déšť</option>
+								<option value="5">Přívalové srážky</option>
+							</select><br>
+							<label for="input-hail">Kroupy</label>
+							<input type="checkbox" id="input-hail" name="inputHail" class="click-revealing"><br>
+							<!--Pokud se zaškrtne ano, objeví se tato nabídka:-->
+							<label for="input-hail-size">Velikost krup</label>
+							<input type="text" id="input-hail-size" name="inputHailSize" placeholder="mm"><br>
+							<label for="input-hail-intensity">Intenzita krupobití</label>
+							<select id="input-hail-intensity" class="select">
+								<option value="0"></option>
+								<option value="1">Kroupy padají řídce</option>
+								<option value="2">Běžné krupobití</option>
+								<option value="3">Kroupy vytváří nesouvislou vrstvu na zemi</option>
+								<option value="4">Kroupy vytváří souvislou vrstvu na zemi</option>
+								<option value="5">Velká vrstva krup(několik cm) na zemi</option>
+							</select>
+						</div>
+						
+						<div class="lightning-inputs">
+							<p>Blesková aktivita</p>
+							<label for="input-lightning">Intenzita bleskové aktivity</label>
+							<select id="input-lightning" class="select">
+								<option value="0"></option>
+								<option value="1">Ojedinělé blesky(do 5 blesků)</option>
+								<option value="2">Občasné blesky</option>
+								<option value="3">Četné blesky</option>
+								<option value="4">Intenzivní blýskání </option>
+								<option value="5">Neustálé blýskání</option>
+							</select><br> 
+							<label for="input-lightning-CC">Blesk CC</label>
+							<input type="checkbox" id="input-lightning-CC" name="inputLightningCC"><br>
+							<label for="input-lightning-CG">Blesk CG</label>
+							<input type="checkbox" id="input-lightning-CG" name="inputLightningCG"><br>
+							<label for="input-lightning-line">Čárový blesk</label>
+							<input type="checkbox" id="input-lightning-line" name="inputLightningLine"><br>
+							<label for="input-lightning-fork">Rozvětvený blesk</label>
+							<input type="checkbox" id="input-lightning-fork" name="inputLightningFork"><br>			
+							<label for="input-lightning-pearl">Perlový Blesk</label>
+							<input type="checkbox" id="input-lightning-pearl" name="inputLightningPearl"><br>
+							<label for="input-lightning-ribbon">Stuhový blesk</label>
+							<input type="checkbox" id="input-lightning-ribbon" name="inputLightningRibbon"><br>
+							<label for="input-lightning-flat">Plošný blesk</label>
+							<input type="checkbox" id="input-lightning-flat" name="inputLightningFlat"><br>
+							<label for="input-lightning-ionosphere">Nadoblačný blesk</label>
+							<input type="checkbox" id="input-lightning-ionosphere" name="inputLightningIonosphere"><br>
+							<label for="input-lightning-crowler">Crowler</label>
+							<input type="checkbox" id="input-lightning-crowler" name="inputLightningCrowler"><br>
+							<label for="input-lightning-power">Powerflash</label>
+							<input type="checkbox" id="input-lightning-power" name="inputLightningPower"><br>
+							<label for="input-lightning-ball">Kulový blesk</label>
+							<input type="checkbox" id="input-lightning-ball" name="inputLightningBall">
+						</div>
+						
+						<div class="situation-inputs">
+							<p>Situace</p>
+							<label for="input-prediction">Byla v předpovědi uvedena pro místo pozorování možnost bouřky?</label>
+							<input type="checkbox" id="input-prediction" name="inputPrediction" class="click-revealing"><br>
+							<!--if true-->
+							<label for="input-probability">Pravděpodobnost bouřky v předpovědi pro místo pozorování</label>
+							<select id="input-probability" class="select">
+								<option value="0"></option>
+								<option value="1">Ojediněle(méně než 30% území)</option>
+								<option value="2">Místy(30-70% území)</option>
+								<option value="3">Na většině území(více než 50%)</option>
+								<option value="4">Bez specifikace(více než 70%)</option>
+							</select><br>
+							<label for="input-warning">Byla vydána pro místo pozorování výstraha před silnými bouřkami?</label>
+							<input type="checkbox" id="input-warning" name="inputWarning" class="click-revealing"><br>
+							<!--if true-->
+							<label for="input-warning-level">Stupeň výstrahy</label>
+							<select id="input-warning-level" class="select">
+								<option value="0"></option>
+								<option value="1">Silné bouřky</option>
+								<option value="2">Velmi silné bouřky</option>
+								<option value="3">Extrémně silné bouřky</option>
+							</select><br>
+							<label for="input-situation">Synoptická situace</label>
+							<select id="input-situation" class="select">
+								<option value="0"></option>
+								<option value="1">Studená fronta</option>
+								<option value="2">Zvlněná studená fronta</option>
+								<option value="3">Teplá fronta</option>
+								<option value="4">Tlaková níže</option>
+								<option value="5">Výšková tlaková níže</option>
+								<option value="6">Brázda nízkého tlaku</option>
+								<option value="7">Bouřka z tepla</option>
+							</select>
+						</div>
+	
+						<div class="cloud-inputs">
+							<p>Oblačné struktury: </p>
+							<label for="input-cloud-funnel">Tromba</label>
+							<input type="checkbox" id="input-cloud-funnel" name="inputCloudFunnel"><br>
+							<label for="input-cloud-shelf">Shelf cloud</label>
+							<input type="checkbox" id="input-cloud-shelf" name="inputCloudShelf"><br>
+							<label for="input-cloud-roll">Roll cloud</label>
+							<input type="checkbox" id="input-cloud-roll" name="inputCloudRoll"><br>
+							<label for="input-cloud-wall">Wall cloud</label>
+							<input type="checkbox" id="input-cloud-wall" name="inputCloudWall">
+							
+						</div>
+	
+						<div class="other-inputs">
+							<p>Ostatní</p>
+							<label for="input-other-text">Jiný jev:</label>
+							<input type="text" id="input-other-text" name="inputOtherText"><br>
+							<label for="input-damage">Způsobila bouřka nějaké škody?</label>
+							<input type="checkbox" id="input-damage" name="inputDamage" class="click-revealing"><br>	
+							<!--if true-->
+							<label for="input-damage-level">Míra způsobených škod</label>
+							<select id="input-damage-level" class="select">
+								<option value="0"></option>
+								<option value="1">Mírné škody</option>
+								<option value="2">Větší škody</option>
+								<option value="3">Velké poškození</option>
+							</select><br>
+							<label for="input-notes">Poznámka</label>
+							<input type="text" id="input-notes" name="inputNotes"><br>
+						</div>
+						<input type="submit" value="Uložit">
+					</form>
+				</div>
+				<div class="detail-of-storm">
+					<table>
+						<thead class="table-header">
+							<tr>
+								<th id="header">
+									<!--js generated-->
+								</th>
+							</tr>
+						</thead>
+						<tbody class="table-body">
+							<tr>
+								<td colspan="2" class="table-section">Obecné</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									doba trvání (minuty)
+								</td>
+								<td class="storm-data" id="duration-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									směr příchodu bouřky
+								</td>
+								<td class="storm-data" id="storm-direction-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									typ bouřky
+								</td>
+								<td class="storm-data" id="storm-type-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									supercela
+								</td>
+								<td class="storm-data" id="supercell-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									typ supercely
+								</td>
+								<td class="storm-data" id="supercell-type-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="table-section">Vítr</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									směr větru
+								</td>
+								<td class="storm-data" id="wind-direction-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									síla větru
+								</td>
+								<td class="storm-data" id="wind-force-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									downburst
+								</td>
+								<td class="storm-data" id="downburst-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									tornádo
+								</td>
+								<td class="storm-data" id="tornado-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									síla tornáda
+								</td>
+								<td class="storm-data" id="tornado-power-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="table-section">Srážky</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									intenzita deště
+								</td>
+								<td class="storm-data" id="preacipitation-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									kroupy
+								</td>
+								<td class="storm-data" id="hail-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									velikost krup (mm)
+								</td>
+								<td class="storm-data" id="hail-size-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									intenzita krupobití
+								</td>
+								<td class="storm-data" id="hail-intensity-data">
+									<!--js generated-->
+								</td>
+							</tr>		
+							<tr>
+								<td colspan="2" class="table-section">Blesková aktivita</td>
+							</tr>
+							<tr>
+								<td colspan="" class="storm-property">
+									intenzita bleskové aktivity
+								</td>
+								<td class="storm-data" id="lightning-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									blesk CC
+								</td>
+								<td class="storm-data" id="CC-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									blesk CG
+								</td>
+								<td class="storm-data" id="CG-data">
+									<!--js generated-->
+								</td>
+							</tr>		
+							<tr>
+								<td class="storm-property">
+									čárový blesk
+								</td>
+								<td class="storm-data" id="line-lightning-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									rozvětvený blesk
+								</td>
+								<td class="storm-data" id="fork-lightning-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									perlový blesk
+								</td>
+								<td class="storm-data" id="pearl-lightning-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									stuhový blesk
+								</td>
+								<td class="storm-data" id="ribbon-lightning-data">
+									<!--js generated-->
+								</td>
+							</tr>		
+							<tr>
+								<td class="storm-property">
+									plošný blesk
+								</td>
+								<td class="storm-data" id="flat-lightning-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									nadoblačný blesk
+								</td>
+								<td class="storm-data" id="ionosphere-lightning-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									blesk crowler
+								</td>
+								<td class="storm-data" id="crowler-lightning-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									powerflash
+								</td>
+								<td class="storm-data" id="powerflash-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									kulový blesk
+								</td>
+								<td class="storm-data" id="lightningball-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td colspan="2" class="table-section">Situace</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									předpověď pro bouřku
+								</td>
+								<td class="storm-data" id="prediction-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									pravděpodobnost bouřky <br>
+									vrámci předpovědi
+								</td>
+								<td class="storm-data" id="probability-data">
+									<!--js generated-->
+								</td>
+							</tr>		
+							<tr>
+								<td class="storm-property">
+									výstraha před silnými bouřkami
+								</td>
+								<td class="storm-data" id="warn-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									stupeň výstrahy před <br>
+									silnými bouřkami
+								</td>
+								<td class="storm-data" id="warn-level-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									meteorologická situace
+								</td>
+								<td class="storm-data" id="meteo-situation-data">
+									<!--js generated-->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2" class="table-section">Oblačné struktury</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									tromba
+								</td>
+								<td class="storm-data" id="funnelcloud-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									shelfcloud
+								</td>
+								<td class="storm-data" id="shelfcloud-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									roll-cloud
+								</td>
+								<td class="storm-data" id="rollcloud-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									wall cloud
+								</td>
+								<td class="storm-data" id="wallcloud-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td colspan="2" class="table-section">Ostatní</td>
+							</tr>
+							<tr>
+								<td class="storm-property">
+									jiný jev
+								</td>
+								<td class="storm-data" id="other-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									škody
+								</td>
+								<td class="storm-data" id="damage-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									míra škod
+								</td>
+								<td class="storm-data" id="damage-level-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+							<tr>
+								<td class="storm-property">
+									poznámka
+								</td>
+								<td class="storm-data" id="note-data">
+									<!--js generated-->
+								</td>
+							</tr>	
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2">
+									<button id="edit-button">Upravit údaje</button>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+	</main>
+	<footer>
+
+	</footer>
+	<script src="script/lodash.js"></script>
+	<script src="script/variables.js"></script>
+	<script src="script/functions.js"></script>
+	<script src="script/script.js"></script>
+</body>
+</html>
